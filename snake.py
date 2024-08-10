@@ -1,4 +1,5 @@
 from turtle import Turtle
+from scoreboard import ScoreBoard
 MOVE_DISTANCE = 20
 UP = 90
 DOWN = 270
@@ -27,8 +28,9 @@ class Snake:
             box = self.snake_body[i]
             box.goto(prev_box.xcor(), prev_box.ycor())
         self.head.forward(MOVE_DISTANCE)
-        if self.head.xcor() > 280:
+        if self.head.xcor() > 280 or self.head.xcor() < -280 or self.head.ycor() > 280 or self.head.ycor() < -280:
             self.game_on = False
+            ScoreBoard().game_over()
 
     def up(self):
         if self.head.heading() != DOWN:
