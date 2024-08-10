@@ -21,14 +21,23 @@ screen.onkey(snake.down, "Down")
 screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
 
-
 while snake.game_on:
+
+    # update screen
     screen.update()
     time.sleep(0.2)
     snake.move()
+
+    # detect collision with food
     if snake.head.distance(food) < 15:
         food.create_food()
+        snake.create_snake_box(len(snake.snake_body) - 1)
         scoreboard.refresh_score()
 
+    # detect wall collision
+    snake.detect_walls_collision()
+
+    # detect self collision
+    snake.detect_snake_collision()
 
 screen.exitonclick()
