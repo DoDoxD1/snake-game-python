@@ -33,10 +33,8 @@ class Snake:
             ScoreBoard().game_over()
 
     def detect_snake_collision(self):
-        for box in self.snake_body:
-            if box == self.head:
-                pass
-            elif self.head.distance(box) < 10:
+        for box in self.snake_body[1:]:
+            if self.head.distance(box) < 10:
                 self.game_on = False
                 ScoreBoard().game_over()
 
