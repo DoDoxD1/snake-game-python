@@ -3,13 +3,15 @@ from turtle import Turtle
 ALIGNMENT = "center"
 FONT = ("Arial", 24, "normal")
 
+data = open("data.txt", mode="r+")
+
 
 class ScoreBoard(Turtle):
     def __init__(self):
         super().__init__()
         self.color("white")
         self.score = 0
-        self.high_score = 0
+        self.high_score = int(data.read())
         self.lives = 6
         self.game_on = True
         self.hideturtle()
@@ -19,6 +21,7 @@ class ScoreBoard(Turtle):
     def refresh_score(self):
         if self.score > self.high_score:
             self.high_score = self.score
+            data.write(str(self.high_score))
         self.score = 0
         self.lives = self.lives - 1
         if self.lives == 0:
@@ -38,3 +41,6 @@ class ScoreBoard(Turtle):
     def gain_score(self):
         self.score += 1
         self.update_scoreboard()
+
+
+data.close()
