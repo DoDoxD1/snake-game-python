@@ -1,5 +1,5 @@
+import time
 from turtle import Turtle
-from scoreboard import ScoreBoard
 
 MOVE_DISTANCE = 20
 UP = 90
@@ -11,7 +11,6 @@ LEFT = 180
 class Snake:
     def __init__(self):
         self.snake_body = []
-        self.game_on = True
         self.create_snake()
         self.head = self.snake_body[0]
 
@@ -27,16 +26,23 @@ class Snake:
         for i in range(0, 3):
             self.create_snake_box(i)
 
-    def detect_walls_collision(self):
+    def detect_walls_collision(self, scoreboard):
         if self.head.xcor() > 280 or self.head.xcor() < -280 or self.head.ycor() > 280 or self.head.ycor() < -280:
-            self.game_on = False
-            ScoreBoard().game_over()
+            scoreboard.refresh_score()
+            self.reset()
 
-    def detect_snake_collision(self):
+    def detect_snake_collision(self, scoreboard):
         for box in self.snake_body[1:]:
             if self.head.distance(box) < 10:
-                self.game_on = False
-                ScoreBoard().game_over()
+                scoreboard.refresh_score()
+                self.reset()
+
+    def reset(self):
+        for box in self.snake_body:
+            box.goto(1000, 1000)
+        self.snake_body.clear()
+        self.create_snake()
+        self.head = self.snake_body[0]
 
     def move(self):
         for i in range(len(self.snake_body) - 1, 0, -1):
@@ -48,15 +54,19 @@ class Snake:
     def up(self):
         if self.head.heading() != DOWN:
             self.head.setheading(UP)
+            time.sleep(0.1)
 
     def down(self):
         if self.head.heading() != UP:
             self.head.setheading(DOWN)
+            time.sleep(0.1)
 
     def left(self):
         if self.head.heading() != RIGHT:
             self.head.setheading(LEFT)
+            time.sleep(0.1)
 
     def right(self):
         if self.head.heading() != LEFT:
             self.head.setheading(RIGHT)
+            time.sleep(0.1)
